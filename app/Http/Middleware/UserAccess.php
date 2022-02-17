@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use App\Models\User;
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+class UserAccess
+{
+    public function handle(Request $request, Closure $next)
+    {
+        if (User::ROLE['USER'] != auth()->user()->role) {
+            throw new NotFoundHttpException();
+        }
+        return $next($request);
+    }
+}
